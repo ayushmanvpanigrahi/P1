@@ -1,0 +1,116 @@
+Practical 1
+
+tempservice.java:-
+
+package mypack;
+
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+
+
+@WebService(serviceName = "tempservice")
+public class tempservice {
+
+ 
+    @WebMethod(operationName = "hello")
+    public String hello(@WebParam(name = "name") String txt) {
+        return "Hello " + txt + " !";
+    }
+    
+    @WebMethod(operationName = "F_to_C")
+    public Double F_to_C(@WebParam(name = "val") double val) {
+        return (val-32)*5/9;
+    
+    @WebMethod(operationName = "C_to_F")
+    public Double C_to_F(@WebParam(name = "val") double val) {
+        return (val*9/5)+32;
+    }
+}
+
+
+
+---------------------------------------------------------------------------
+
+
+
+c_to_f.jsp
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <%
+            String d = request.getParameter("data");
+            Integer dd = Integer.parseInt(d);
+            try{
+            mypack.Tempservice_Service  service = new mypack.Tempservice_Service();
+            mypack.Tempservice Port = service.getTempservicePort();
+            double c = dd;
+            
+            java.lang.Double result = port.cToF(c);
+            out.println("Result = "+result);
+            }catch(Exception ex){
+            
+            }
+            %>
+    </body>
+</html>
+
+
+------------------------------------------------------------------------------
+
+f_to_c.jsp
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+         <%
+            String d = request.getParameter("data");
+            Integer dd = Integer.parseInt(d);
+            try{
+            mypack.Tempservice_Service  service = new mypack.Tempservice_Service();
+            mypack.Tempservice Port = service.getTempservicePort();
+            double f = dd;
+            java.lang.Double result = port.fToC(f);
+            out.println("Result = "+result);
+            }catch(Exception ex){
+            
+            }
+            %>
+    </body>
+</html>
+
+--------------------------------------------------------------------------------------
+
+index.html:
+
+
+<html>
+<head>
+<title>todo Title</title>
+<meta charset="UTF-8>
+<meta name="viewport" content=with=device-width,initial-scale=1.0">
+</head>
+<body>
+
+<form>
+<br><input type="text" name="data"><br>
+<br><input type="submit" value="Convert F to C" name="ftoc" formaction="f_to_c.jsp"><br>
+<br><input type="submit" value="Convert C to F" name="ctof" formaction="c_to_f.jsp"><br>
+
+</form>
+
+
+</body>
+</html>
+

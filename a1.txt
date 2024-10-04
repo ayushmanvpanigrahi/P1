@@ -1,0 +1,230 @@
+PRACTICAL 1 
+
+
+Step 1:-
+Go to File -> New Project. Select Java Web in categories and Web Application
+in Projects. Click on Next to create a web based project.
+
+Step 2:-
+Enter a project name whatever you want and then click on Next. On next page
+click Finish.--> tempwebservice(name)
+
+Step 3:-
+Create a web service.
+Right click on Project -> New -> Web Service
+
+Step 4:-
+Enter a Web Service Name->(tempwebservice) and package name(mypack) and then click on Finish to
+create a Web Service.
+
+Step 5:-
+In Source Packages there is a package Service which contains the service file temp_service.java. Open this file by double click on it, So that we can add two operation that will convert temperature from celsius to fahrenheit and vice-versa.
+Go to design mode by clicking on Design .
+
+Step 6:-
+Give Operation name F_to_C and return type as Double. So this method will
+return value in Double data type. After that click on Add button to give
+parameters for method. Give its name as f and type as Double and then click
+on the OK button. Your one operation is now successfully created.
+
+Step 7:-
+Repeat steps 7 & 8 to create a second operation. But this time replace some
+above entered data with following data.
+F_to_C -> C_to_F
+f -> c
+
+Step:- 8
+Now go to source mode by clicking on Source.
+Write the code in webmethod F_to_C to convert Fahrenheit to
+Celsius.
+Double c = (f-32)*1.8;
+return c;
+Write the code in webmethod C_to_F to convert Celsius to
+Fahrenheit and then press Ctrl+S to save.
+Double f = (c*1.8)+32;
+return f;
+(write a code in tempservice.java)
+--------------------------------------------------------------------------------------------------------
+tempservice.java:-
+
+package mypack;
+
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+
+
+@WebService(serviceName = "tempservice")
+public class tempservice {
+
+ 
+    @WebMethod(operationName = "hello")
+    public String hello(@WebParam(name = "name") String txt) {
+        return "Hello " + txt + " !";
+    }
+    
+    @WebMethod(operationName = "F_to_C")
+    public Double F_to_C(@WebParam(name = "val") double val) {
+        return (val-32)*5/9;
+    
+    @WebMethod(operationName = "C_to_F")
+    public Double C_to_F(@WebParam(name = "val") double val) {
+        return (val*9/5)+32;
+    }
+}
+-----------------------------------------------------------------------------------------------
+
+Step 9:-
+Now right click on project name and click on Deploy to deploy your project.(& Deploy it)
+
+Step 10:-
+To test your web service follow the following process as in the picture.(Test web service of tempwebservice)
+Step 11:-
+Following window will open in the browser. Now if you will enter a numeric data into first box and you will click on first button it will convert the entered data into celsius
+Step 12:-
+Selected value is in celsius of 100.
+
+Step 13:- Similarly second textbox and button will convert the numeric value into Fahrenheit.
+
+Step 14:-
+Now to consume this web service we are creating a client.(create new web application )
+
+Step 15:-
+create a new web application project with the name Temp_client.
+
+Step 16:-
+Now open the index.html page of Temp_client and write the following code into that.( in index.html)
+
+--------------------------------------------------------------------------------------------------------------
+
+index.html:
+
+
+<html>
+<head>
+<title>todo Title</title>
+<meta charset="UTF-8>
+<meta name="viewport" content=with=device-width,initial-scale=1.0">
+</head>
+<body>
+
+<form>
+<br><input type="text" name="data"><br>
+<br><input type="submit" value="Convert F to C" name="ftoc" formaction="f_to_c.jsp"><br>
+<br><input type="submit" value="Convert C to F" name="ctof" formaction="c_to_f.jsp"><br>
+
+</form>
+
+
+</body>
+</html>
+
+---------------------------------------------------------------------------------------------------------------
+
+Step 17:
+Now create two jsp pages for both submit buttons. Right click on Web Pages -> New -> JSP
+
+Step 18:-
+Enter file name f_to_c and then click on Finish.
+
+Step 19:-
+Now repeat step number 20 & 21. But give the File Name as c_to_f.
+
+Step 20:-
+Right click on Temp_client and select Web Service Client as below.
+
+Step 21:-
+Click on Browse.
+
+Step 22:-
+New window will appear and then select temp_service and click on OK.
+
+Step 23:-
+Click on Finish.
+
+Step 24:-
+Now open the c_to_f.jsp file and delete the selected line.
+
+Step 25:- Now right click in between the body section and select Call Web
+Service Operation as below.
+
+Step 26:-
+New window will appear, select the C_to_F by expanding it and click on OK.
+So the selected code in the second pic will be automatically generated.
+
+---------------------------------------------------------------------------------------------------------
+
+c_to_f.jsp
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <%
+            String d = request.getParameter("data");
+            Integer dd = Integer.parseInt(d);
+            try{
+            mypack.Tempservice_Service  service = new mypack.Tempservice_Service();
+            mypack.Tempservice Port = service.getTempservicePort();
+            double c = dd;
+            
+            java.lang.Double result = port.cToF(c);
+            out.println("Result = "+result);
+            }catch(Exception ex){
+            
+            }
+            %>
+    </body>
+</html>
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Step 27:-
+Now, make the selected area in step 30 as like selected area in below pic
+by adding some lines of code.
+
+Step 28:- 
+Now Open the f_to_c.jsp file and follow the steps from 28 to 31.
+Only the change is in 30 number step and i.e. instead of C_to_F, you have
+to select F_to_C.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+f_to_c.jsp
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+         <%
+            String d = request.getParameter("data");
+            Integer dd = Integer.parseInt(d);
+            try{
+            mypack.Tempservice_Service  service = new mypack.Tempservice_Service();
+            mypack.Tempservice Port = service.getTempservicePort();
+            double f = dd;
+            java.lang.Double result = port.fToC(f);
+            out.println("Result = "+result);
+            }catch(Exception ex){
+            
+            }
+            %>
+    </body>
+</html>
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+Step 29:-
+Now run the Temp_client project. The window will be open like below.
+
+
+Step 30:- Now you can to enter any numeric data into textbox and if you will click the first button it will convert the numeric value into Celsius and vice-versa for the second button.
+
